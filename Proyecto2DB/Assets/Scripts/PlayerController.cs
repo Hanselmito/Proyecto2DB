@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float velocidad = 5f;
-    public int vida = 100;
+    public int vida = 5;
+
+    public int kii = 100;
 
     public float fuerzaSalto = 10f; 
     public float fuerzaRebote = 5f; 
@@ -14,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private bool enSuelo; 
     private bool recibiendoDano;
     private bool atacando;
+    private bool CargandoKii; // Cambia el tipo de CargandoKii a bool
     public bool muerto;
 
     private Rigidbody2D rb; 
@@ -46,6 +49,14 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Z) && !atacando && enSuelo)
             {
                 Atacando();
+            }
+            if (Input.GetKey(KeyCode.C) && !CargandoKii && enSuelo)
+            {
+                Cargando();
+            }
+            if (Input.GetKeyUp(KeyCode.C) && CargandoKii)
+            {
+                DesactivaCargando();
             }
         }
         
@@ -99,14 +110,24 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
-    public void Atacando()
-    {
+    public void Atacando(){
         atacando = true;
+    }
+
+    public void Cargando(){
+        CargandoKii = true;
+        animator.SetBool("CargandoKii", CargandoKii);
     }
 
     public void DesactivaAtaque()
     {
         atacando = false;
+    }
+
+    public void DesactivaCargando()
+    {
+        CargandoKii = false;
+        animator.SetBool("CargandoKii", CargandoKii);
     }
 
     void OnDrawGizmos()
