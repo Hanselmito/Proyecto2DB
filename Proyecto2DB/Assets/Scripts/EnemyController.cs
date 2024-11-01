@@ -4,7 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Enemy : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     public Transform player; 
     public float detectionRadius = 5.0f; 
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Vector2 direccionDanio = new Vector2(transform.position.x, 0);
-            PlayerMovement playerScript = collision.gameObject.GetComponent<PlayerMovement>();
+            PlayerController playerScript = collision.gameObject.GetComponent<PlayerController>();
 
             playerScript.RecibeDanio(direccionDanio, 1);
             playerVivo = !playerScript.muerto;
