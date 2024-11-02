@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; // Add this line
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb; 
 
     public Animator animator;
+
+    private int collectedBolas = 0;
 
     void Start()
     {
@@ -81,11 +84,23 @@ public class PlayerController : MonoBehaviour
                 desactivaKiiBlast();
             }
         }
-        
+        else
+        {
+            SceneManager.LoadScene(3);
+        }
+
         animator.SetBool("ensuelo", enSuelo);
         animator.SetBool("recibeDano", recibiendoDano);
         animator.SetBool("Atacando", atacando);
         animator.SetBool("muerto", muerto);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("DEAD"))
+        {
+            SceneManager.LoadScene(3);
+        }
     }
        
     public void Move()
@@ -160,6 +175,15 @@ public class PlayerController : MonoBehaviour
     public void desactivaKiiBlast(){
         KiBlast = false;
         animator.SetBool("KiBlast", KiBlast);
+    }
+
+    public void CollectBola()
+    {
+        collectedBolas++;
+        if (collectedBolas >= 7)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     void OnDrawGizmos()
