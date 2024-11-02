@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public float detectionRadius = 5.0f; 
     public float speed = 2.0f;
     public float fuerzaRebote = 6f;
-    public int vida = 100;
+    public int vida = 5;
 
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -78,6 +78,11 @@ public class EnemyController : MonoBehaviour
         if (collision.CompareTag("AtaquePuno")){
             Vector2 direccionDanio = new Vector2(collision.gameObject.transform.position.x, 0);
             RecibeDanio(direccionDanio, 1);
+        }
+        if (collision.CompareTag("Kiiblast")){
+            Vector2 direccionDanio = new Vector2(collision.gameObject.transform.position.x, 0);
+            RecibeDanio(direccionDanio, collision.GetComponent<Kiiblast>().damage);
+            Destroy(collision.gameObject); // Destroy the Kiiblast after collision
         }
     }
 

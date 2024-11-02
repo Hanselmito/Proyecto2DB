@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - AtaquePuno
+  - Kiiblast
   layers:
   - Default
   - TransparentFX

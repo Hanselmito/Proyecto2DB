@@ -3,32 +3,45 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movimiento")]
     public float velocidad = 5f;
-    public int vida = 5;
 
+    [Header("Estadisticas")]
+    public int vida = 5;
     public int kii = 100;
 
+    [Header("Salto")]
     public float fuerzaSalto = 10f; 
-    public float fuerzaRebote = 5f; 
-    public float longitudRaycast = 0.1f; 
+
+    [Header("Ataque")]
+    public float fuerzaRebote = 5f;
+
+    [Header("Raycast")]
+    public float longitudRaycast = 0.1f;
+
+    [Header("Layer")] 
     public LayerMask groundLayer; 
 
+    [Header("Estados")]
     private bool enSuelo; 
     private bool recibiendoDano;
     private bool atacando;
-    private bool CargandoKii; // Cambia el tipo de CargandoKii a bool
+    private bool CargandoKii;
+    private bool KiBlast;
     public bool muerto;
+
+    public Transform FirePoint;
+    public GameObject Kiiblast;
 
     private Rigidbody2D rb; 
 
     public Animator animator;
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!muerto)
@@ -57,6 +70,15 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.C) && CargandoKii)
             {
                 DesactivaCargando();
+            }
+            if (Input.GetKeyDown(KeyCode.X) && !KiBlast && enSuelo)
+            {
+                KiiBlast();
+                Instantiate(Kiiblast, FirePoint.position, Quaternion.identity);
+            }
+            if (Input.GetKeyUp(KeyCode.X) && KiBlast)
+            {
+                desactivaKiiBlast();
             }
         }
         
@@ -119,6 +141,11 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("CargandoKii", CargandoKii);
     }
 
+    public void KiiBlast(){
+        KiBlast = true;
+        animator.SetBool("KiBlast", KiBlast);
+    }
+
     public void DesactivaAtaque()
     {
         atacando = false;
@@ -128,6 +155,11 @@ public class PlayerController : MonoBehaviour
     {
         CargandoKii = false;
         animator.SetBool("CargandoKii", CargandoKii);
+    }
+
+    public void desactivaKiiBlast(){
+        KiBlast = false;
+        animator.SetBool("KiBlast", KiBlast);
     }
 
     void OnDrawGizmos()
