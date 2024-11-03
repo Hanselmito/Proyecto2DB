@@ -127,3 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   speed: 7
+  direction: {x: 1, y: 0}

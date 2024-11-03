@@ -7,15 +7,26 @@ public class Kiiblast : MonoBehaviour
     public int damage = 1;
     private Rigidbody2D rb;
     public float speed;
+    public Vector2 direction = Vector2.right; // New property to set the direction
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // Determine the direction based on the player's facing direction
+        if (transform.localScale.x < 0)
+        {
+            direction = Vector2.left;
+        }
+        else
+        {
+            direction = Vector2.right;
+        }
     }
 
     void Update()
     {
-        rb.velocity = new Vector2(+speed, 0);
+        rb.velocity = direction * speed; // Use direction to set velocity
         Destroy(gameObject, 3f);
     }
 
