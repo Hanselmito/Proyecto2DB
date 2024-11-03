@@ -77,7 +77,8 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.X) && !KiBlast && enSuelo)
             {
                 KiiBlast();
-                Instantiate(Kiiblast, FirePoint.position, Quaternion.identity);
+                GameObject kiiblastInstance = Instantiate(Kiiblast, FirePoint.position, Quaternion.identity);
+                kiiblastInstance.transform.localScale = transform.localScale; // Set the direction based on player's facing direction
             }
             if (Input.GetKeyUp(KeyCode.X) && KiBlast)
             {

@@ -93,6 +93,8 @@ public class EnemyController : MonoBehaviour
             if (vida <= 0){
                 MuereEnemy = true;
                 enMovimiento = false;
+                animator.SetTrigger("MuereEnemy"); // Trigger death animation
+                Invoke("EliminarCuerpo", 1f); // Delay the destruction to allow the death animation to play
             }else{
                 Vector2 rebote = new Vector2(transform.position.x - direccion.x, 0.2f).normalized;
                 rb.AddForce(rebote * fuerzaRebote, ForceMode2D.Impulse);
