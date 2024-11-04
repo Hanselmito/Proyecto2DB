@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Bolas : MonoBehaviour
 {
-    // Start is called before the first frame update
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().CollectBola(); // Add this line
+            collision.GetComponent<PlayerController>().CollectBola();
             Destroy(gameObject);
         }
     }

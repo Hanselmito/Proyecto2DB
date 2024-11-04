@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Kiiblast : MonoBehaviour
 {
+
+    [Header("estadisticas")]
     public int damage = 1;
     private Rigidbody2D rb;
     public float speed;
@@ -26,7 +28,7 @@ public class Kiiblast : MonoBehaviour
 
     void Update()
     {
-        rb.velocity = direction * speed; // Use direction to set velocity
+        rb.velocity = direction * speed;
         Destroy(gameObject, 3f);
     }
 
@@ -40,7 +42,7 @@ public class Kiiblast : MonoBehaviour
                 Vector2 direccionDanio = new Vector2(transform.position.x, 0);
                 enemy.RecibeDanio(direccionDanio, damage);
             }
-            Destroy(gameObject); // Destroy the Kiiblast after collision
+            Destroy(gameObject);
         }
     }
 }

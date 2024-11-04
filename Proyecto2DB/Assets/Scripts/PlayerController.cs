@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement; // Add this line
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,14 +9,15 @@ public class PlayerController : MonoBehaviour
     public float velocidad = 5f;
 
     [Header("Estadisticas")]
-    public int vida = 5;
-    public int kii = 100;
+    public int vida = 100;
+    public int kii = 0;
 
     [Header("Salto")]
     public float fuerzaSalto = 10f; 
 
     [Header("Ataque")]
     public float fuerzaRebote = 5f;
+    
 
     [Header("Raycast")]
     public float longitudRaycast = 0.1f;
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    [Header("recolectar bolas")]
     private int collectedBolas = 0;
 
     void Start()
@@ -49,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!muerto)
         {
-            if (!atacando)
+            if (!atacando && !CargandoKii && !KiBlast)
             {
                 Move();
 
@@ -150,16 +153,36 @@ public class PlayerController : MonoBehaviour
 
     public void Atacando(){
         atacando = true;
+        animator.SetTrigger("Atacando");
+        // Assuming there's a method to detect and apply damage to the enemy
+        // Apply 25 damage to the enemy
+        // enemy.RecibeDanio(transform.position, 25);
     }
 
-    public void Cargando(){
+    public void Cargando()
+    {
         CargandoKii = true;
         animator.SetBool("CargandoKii", CargandoKii);
+        StartCoroutine(CargarKii());
     }
 
-    public void KiiBlast(){
-        KiBlast = true;
-        animator.SetBool("KiBlast", KiBlast);
+    private IEnumerator CargarKii()
+    {
+        while (CargandoKii && kii < 100)
+        {
+            kii += 1;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public void KiiBlast()
+    {
+        if (kii >= 10)
+        {
+            KiBlast = true;
+            animator.SetBool("KiBlast", KiBlast);
+            kii -= 10;
+        }
     }
 
     public void DesactivaAtaque()

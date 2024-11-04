@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class EnemyController : MonoBehaviour
 {
     public Transform player; 
+
+    [Header("Estadisticas")]
     public float detectionRadius = 5.0f; 
     public float speed = 2.0f;
     public float fuerzaRebote = 6f;
@@ -34,6 +36,7 @@ public class EnemyController : MonoBehaviour
 
         animator.SetBool("enMovimiento", enMovimiento);
         animator.SetBool("MuereEnemy", MuereEnemy);
+
     }
 
     private void Move(){
@@ -75,14 +78,16 @@ public class EnemyController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
-        if (collision.CompareTag("AtaquePuno")){
+        if (collision.tag == "AtaquePuno"){
+            Debug.Log("Enemy hit by fist");
             Vector2 direccionDanio = new Vector2(collision.gameObject.transform.position.x, 0);
-            RecibeDanio(direccionDanio, 1);
+            RecibeDanio(direccionDanio, 25);
         }
-        if (collision.CompareTag("Kiiblast")){
+        if (collision.tag == "Kiiblast"){
+            Debug.Log("Enemy hit by Kiiblast");
             Vector2 direccionDanio = new Vector2(collision.gameObject.transform.position.x, 0);
-            RecibeDanio(direccionDanio, collision.GetComponent<Kiiblast>().damage);
-            Destroy(collision.gameObject); // Destroy the Kiiblast after collision
+            RecibeDanio(direccionDanio, 50);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -90,11 +95,12 @@ public class EnemyController : MonoBehaviour
         if (!recibiendoDanio){
             vida -= cantDanio;
             recibiendoDanio = true;
+            animator.SetTrigger("RecibeDanio");
             if (vida <= 0){
                 MuereEnemy = true;
                 enMovimiento = false;
-                animator.SetTrigger("MuereEnemy"); // Trigger death animation
-                Invoke("EliminarCuerpo", 1f); // Delay the destruction to allow the death animation to play
+                animator.SetTrigger("MuereEnemy");
+                Invoke("EliminarCuerpo", 1f);
             }else{
                 Vector2 rebote = new Vector2(transform.position.x - direccion.x, 0.2f).normalized;
                 rb.AddForce(rebote * fuerzaRebote, ForceMode2D.Impulse);

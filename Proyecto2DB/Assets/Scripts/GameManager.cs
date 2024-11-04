@@ -11,13 +11,13 @@ public class GameManager : MonoBehaviour{
     }
 
     public void Menu(){
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame() {
         Application.Quit();
     }
     public void jugar(){
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

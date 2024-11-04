@@ -5,19 +5,18 @@ using UnityEngine.UI;
 
 public class BarraKii : MonoBehaviour{
 
+    [Header("Estadisticas")]
     public Image rellenoKii;
     public PlayerController playerController;
     public float KiiMaxima;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rellenoKii.fillAmount = playerController.vida / KiiMaxima;
+        rellenoKii.fillAmount = playerController.kii / KiiMaxima;
     }
 }
