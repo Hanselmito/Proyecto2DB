@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float velocidad = 5f;
 
     [Header("Estadisticas")]
-    public int vida = 100;
+    public int vida = 10;
     public int kii = 0;
 
     [Header("Salto")]
@@ -77,11 +77,11 @@ public class PlayerController : MonoBehaviour
             {
                 DesactivaCargando();
             }
-            if (Input.GetKeyDown(KeyCode.X) && !KiBlast && enSuelo)
+            if (Input.GetKeyDown(KeyCode.X) && !KiBlast && enSuelo && kii >= 10)
             {
                 KiiBlast();
                 GameObject kiiblastInstance = Instantiate(Kiiblast, FirePoint.position, Quaternion.identity);
-                kiiblastInstance.transform.localScale = transform.localScale; // Set the direction based on player's facing direction
+                kiiblastInstance.transform.localScale = transform.localScale;
             }
             if (Input.GetKeyUp(KeyCode.X) && KiBlast)
             {
@@ -154,9 +154,7 @@ public class PlayerController : MonoBehaviour
     public void Atacando(){
         atacando = true;
         animator.SetTrigger("Atacando");
-        // Assuming there's a method to detect and apply damage to the enemy
-        // Apply 25 damage to the enemy
-        // enemy.RecibeDanio(transform.position, 25);
+        
     }
 
     public void Cargando()
